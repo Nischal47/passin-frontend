@@ -1,0 +1,30 @@
+@import "../../assets/scss/style";
+.toaster {
+  position: fixed;
+  z-index: 999999;
+  padding: 10px;
+  background: white;
+  bottom:8vh;
+  right: 35px;
+  border-radius: 7px;
+
+  &.success {
+    background: $success-color;
+    color: white;
+  }
+
+  &.error {
+    background: $danger-color;
+    color: white;
+  }
+
+  &.on {
+    transform: translateY(80%);
+    opacity: 1;
+  }
+
+  &.off {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}

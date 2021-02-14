@@ -1,0 +1,58 @@
+@import "src/assets/scss/style";
+
+.dashboard{
+  height: 100vh;
+  width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
+  box-sizing: border-box;
+
+  .nav-bar{
+    background: linear-gradient(20deg,$primary-color, $nav-color);;
+    height: 100%;
+    width: 20%;
+    min-width: 250px;
+   .navigation{
+     height: 100%;
+     .logo{
+       width: 42%;
+       align-self: center;
+       img{
+         height: 100%;
+         width: 100%;
+         object-fit: contain;
+       }
+     }
+     .navigations{
+       flex: 1;
+     }
+     .logout{
+       .icon{
+         align-self: center;
+       }
+       align-items: end;
+     }
+     .logout:hover{
+        background: $light-color;
+     }
+   }
+  }
+  .content{
+    height: 100%;
+    width: 80%;
+    .dashboard-header{
+      background: $primary-color;
+      height: 10%;
+      min-height: 70px;
+      .profile-pic{
+        align-self: center;
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+        img{
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
