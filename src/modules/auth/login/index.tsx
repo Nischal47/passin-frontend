@@ -5,9 +5,9 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {LoginInterface} from "../interface/authInterface";
 import {ValidateForm, ValidateInput} from "../../../utills/customHooks/validateForm";
-import * as actions from '../store/AuthActions';
 import AuthRules from "../AuthRules";
 import {useHistory} from "react-router";
+import * as actions from "../../../store/action";
 
 const initialValues: LoginInterface = {
     email: '',

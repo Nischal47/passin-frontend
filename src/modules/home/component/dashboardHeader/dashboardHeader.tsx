@@ -3,7 +3,7 @@ import React from 'react';
 const DashboardHeader = () => {
     return (
         <>
-            <div className='dashboard-header flex full-width justify-end pl-xl pr-xl'>
+            <div className='flex full-width justify-end pl-xl pr-xl'>
                 <div className='user-name mr-md'>
                     <p className='sub-title text'>Nischal Babu Bohara</p>
                 </div>

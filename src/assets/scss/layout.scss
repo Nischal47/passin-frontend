@@ -665,3 +665,113 @@ body{
     width: 100%;
   }
 }
+
+//table-component
+.list-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .table-headers {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    .table-header-items {
+      padding: 5px 10px;
+      box-sizing: border-box;
+      margin: 1px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+  .table-body {
+    margin: 10px 0;
+    width: 100%;
+    font-size: 0.9rem;
+    overflow: auto;
+    .table-row {
+      display: flex;
+      padding: 0 15px;
+      align-items:center;
+      &:nth-child(even){
+        border-radius: $sm;
+        background:rgba(0,0,0,0.05);
+      }
+      .table-body-items {
+        padding: 5px 10px;
+        font-size:12px;
+        overflow-wrap: anywhere;
+        &.actions {
+          width: 125px;
+        }
+      }
+      .Active, .Success {
+        width: 48.78px;
+        height: 25px;
+        background: #86C546;
+        border-radius: 3px;
+        color: #FFFFFF;
+      }
+      .Deactivated {
+        width: 48.78px;
+        height: 25px;
+        background: #C8C8C8;
+        border-radius: 3px;
+        color: #FFFFFF;
+      }
+      .Loading, .Invited {
+        width: 48.78px;
+        height: 25px;
+        background: #62C4FB;
+        border-radius: 3px;
+        color: #FFFFFF;
+      }
+      .Failed {
+        width: 48.78px;
+        height: 25px;
+        background: #D24141;
+        border-radius: 3px;
+        color: #FFFFFF;
+      }
+    }
+    i {
+      cursor: pointer;
+      &:hover {
+        color: #633bb6;
+      }
+    }
+  }
+  .actions {
+    margin: $md;
+    min-width:100px;
+    display: flex;
+    .text-primary {
+      color: #005a91;
+    }
+    .text-warning {
+      color: $warning-color;
+    }
+    .text-danger {
+      color: $danger-color;
+    }
+    i {
+      cursor: pointer;
+      display: inline-block;
+      border-radius: 60px;
+      box-shadow: 1px 1px 4px #bbb;
+      padding: 0.1em 0.1em;
+      background:$light-color;
+      margin: 0 0.2em;
+      &:hover {
+        color: #633bb6;
+      }
+    }
+  }
+  .pagination-area{
+    i{
+      &:hover{
+        color:$primary-color;
+      }
+      cursor: pointer;
+    }
+  }
+}

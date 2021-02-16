@@ -5,13 +5,24 @@ import {NavigationCardInterface} from "../../interface/homeInterfaces";
 import PasswordsIcon from "../../../../assets/images/passwords.svg"
 import SettingIcon from "../../../../assets/images/settings.svg"
 import logout from "../../../../assets/images/logout.svg";
+import {useDispatch} from "react-redux";
+import {useHistory} from "react-router";
+import * as actions from "../../../../store/action";
 
 const NavigationBar = () => {
 
     const navigationItems:NavigationCardInterface[] = [
         {icon:PasswordsIcon,link:'',name:'passwords'},
-        {icon:SettingIcon,link:'',name:'about'},
+        {icon:SettingIcon,link:'',name:'Settings'},
     ]
+
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const logoutUser = async ()=>{
+        await dispatch(actions.logout());
+        history.push("/");
+    }
 
     return (
         <div className='flex navigation column pt-md pb-md'>
@@ -25,7 +36,7 @@ const NavigationBar = () => {
                     ))
                 }
             </div>
-            <div className='flex justify-start logout pointer pa-md'>
+            <div className='flex justify-start logout pointer pa-md' onClick={logoutUser}>
                 <div className='icon mr-md align-center'>
                     <img src={logout} alt=""/>
                 </div>
