@@ -12,6 +12,12 @@ export interface SignupInterface{
     conformPassword:string,
 }
 
+export interface AuthInterface {
+    user: User,
+    isAuthenticated: boolean
+    registrationStatus: string
+}
+
 export interface User{
     id:number,
     email: string,

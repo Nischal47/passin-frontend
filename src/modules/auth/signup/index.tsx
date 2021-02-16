@@ -4,9 +4,9 @@ import logo from "../../../assets/images/pass-in-logo.svg";
 import {useDispatch, useSelector} from "react-redux";
 import {ValidateForm, ValidateInput} from "../../../utills/customHooks/validateForm";
 import AuthRules from "../AuthRules";
-import * as actions from "../store/AuthActions";
 import {SignupInterface} from "../interface/authInterface";
 import {useHistory} from "react-router";
+import * as actions from "../../../store/action";
 
 const initialValues: SignupInterface ={
     firstName: '',
@@ -51,7 +51,6 @@ const Signup = () => {
 
     const conformPassword = () => {
         const errorMessage = user.password.match(user.conformPassword) ? '' : 'Password does not matches!'
-        console.log(errorMessage)
         setErrors({
             ...errors,
             'conformPassword':errorMessage
@@ -72,7 +71,7 @@ const Signup = () => {
         <>
             <div className='auth' >
                 <div className="signup flex-centered pa-xl">
-                    <form className="column justify-between signup-form elevated" autoComplete='off' onSubmit={registerUser}>
+                    <form className="column justify-between signup-form elevated" autoComplete='off' onSubmit={(e: FormEvent) => registerUser(e)}>
                         <div className='logo flex justify-center mt-md mr-md mb-md'>
                             <img src={logo} alt={'logo'}/>
                         </div>
