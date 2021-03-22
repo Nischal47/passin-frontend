@@ -138,7 +138,7 @@ const Signup = () => {
                                         type="password"
                                         name={"password"}
                                         onChange={inputHandler}
-                                        onBlur={inputValidation && conformPassword}
+                                        onBlur={conformPassword}
                                         placeholder={'Enter Password'}/>
                                 </div>
                                 {errors.password !== '' ? <span className="error-text">{errors.password}</span> : ''}
