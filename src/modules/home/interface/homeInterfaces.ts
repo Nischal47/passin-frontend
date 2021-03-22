@@ -10,4 +10,18 @@ export interface PasswordInterface{
     email:string,
     password:string,
     updatedOn:string
+    userId:number
+}
+
+export interface AddPasswordInterface {
+    passwordId?:number,
+    hostName: string,
+    email: string,
+    password: string,
+    originalPassword: string,
+}
+
+export interface DecryptPasswordInterface {
+    originalPassword:string,
+    passwordId:number
 }
