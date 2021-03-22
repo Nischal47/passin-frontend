@@ -25,7 +25,7 @@ const MainRoute:React.FC<MainRoutePropsInterface> = () => {
                     !route.isAuth
                         ? <Route
                             path={`${route.path}`}
-                            name={route.name}
+                          
                             component={route.component}
                             exact={route.exact}
                             key={key}
