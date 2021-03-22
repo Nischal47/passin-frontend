@@ -40,17 +40,17 @@ const TableComponent = (props: any) => {
                                     (
                                         <div className="actions table-body-items flex">
                                             {props.editAction ? <div className='pointer outlined pa-sm ml-sm mr-sm'
-                                                onClick={() => props.editAction(rows.id)}
+                                                                     onClick={() => props.editAction(row)}
                                             >
                                                 <img src={EditIcon} alt=""/>
                                             </div> : ''}
-                                            {props.decryptAction ? <div  className='pointer outlined pa-sm ml-sm mr-sm'
-                                                                         onClick={() => props.decryptAction(rows.id)}
+                                            {props.decryptAction ? <div className='pointer outlined pa-sm ml-sm mr-sm'
+                                                                        onClick={() => props.decryptAction(row)}
                                             >
                                                 <img src={DecryptIcon} alt=""/>
                                             </div> : ''}
-                                            {props.deleteAction ? <div  className='pointer outlined pa-sm ml-sm mr-sm'
-                                                                        onClick={() => props.deleteAction(rows.id)}
+                                            {props.deleteAction ? <div className='pointer outlined pa-sm ml-sm mr-sm'
+                                                                       onClick={() => props.deleteAction(row)}
                                             >
                                                 <img src={DeleteIcon} alt=""/>
                                             </div> : ''}

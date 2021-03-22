@@ -3,6 +3,8 @@ import promise from 'promise';
 
 const axiosInstance = axios.create();
 
+const refreshTokenUrl = process.env.REACT_APP_API_BASE_URL+'users/refresh-token';
+
 axiosInstance.interceptors.request.use(
     config => {
         const accessToken = localStorage.getItem("token");
@@ -34,7 +36,7 @@ axiosInstance.interceptors.response.use((response) => {
                 return Promise.reject(error);
             }
             email = JSON.parse(user).email;
-            return axiosInstance.post('http://localhost:8080/api/users/refresh-token',
+            return axiosInstance.post(refreshTokenUrl,
                 {
                     "email": `${email}`,
                     "refreshToken": `${refreshToken}`
