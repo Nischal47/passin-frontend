@@ -14,7 +14,7 @@ pipeline {
 		}
 		stage('Run Tests'){
 				steps{
-					bat 'npm cy:test'
+					bat 'npm run cy:test'
 				}
 		}
 	}
