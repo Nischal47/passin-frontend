@@ -10,7 +10,7 @@ describe('Actions', () => {
     it('Visits login page', () => {
       cy.request({
         method: 'POST',
-        url: 'hhttp://localhost:8080/api/v1/auth/login',
+        url: 'http://localhost:8081/api/v1/auth/login',
         body:{
             "email" : "nischalbohara77@gmail.com",
             "password" : "Kiodaija123"
