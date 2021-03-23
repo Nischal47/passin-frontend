@@ -36,7 +36,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "runHeadless": "npx cypress run --headless"
+    "cy:test": "npx cypress run",
+    "runHeadless": "npx cypress run --headless",
+    "cy:chrome": "cypress run --browser chrome --headless"
   },
   "eslintConfig": {
     "extends": [
