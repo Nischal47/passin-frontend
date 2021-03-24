@@ -12,6 +12,11 @@ pipeline {
 					bat 'npm install'
 				}
 		}
+		stage('Run Server'){
+				steps{
+					bat 'npm start'
+				}
+		}
 		stage('Run Tests'){
 				steps{
 					bat 'npm run cy:test'
