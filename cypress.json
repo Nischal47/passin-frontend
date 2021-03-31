@@ -2,5 +2,6 @@
     "baseUrl": "http://localhost:3000/",
     "viewportWidth": 1920,
     "viewportHeight": 1080,
-    "defaultCommandTimeout" : 6000
+    "defaultCommandTimeout" : 6000,
+    "projectId": "75soax"
 }
