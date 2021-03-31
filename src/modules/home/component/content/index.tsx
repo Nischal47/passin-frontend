@@ -48,11 +48,15 @@ const Content = () => {
 
     useEffect(() => {
         let mixedArray:PasswordInterface[] = passwords;
+
+        // decryptedPasswords.filter
+
         mixedArray.map((password:PasswordInterface) => (
             decryptedPasswords.map((decryptedPassword:PasswordInterface) => (
                 decryptedPassword.id === password.id ? password.password = decryptedPassword.password : password.password = password.password
             ))
         ))
+
         setPasswords(mixedArray);
     },[decryptedPasswords])
 
