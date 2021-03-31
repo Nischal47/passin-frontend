@@ -36,7 +36,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cy:test": "npx cypress run",
+    "cy:test": "npx cypress run --record --key a7632bcc-172b-4d8d-8ad9-7466cefd78e3",
     "runHeadless": "npx cypress run --headless",
     "cy:chrome": "cypress run --browser chrome --headless"
   },
