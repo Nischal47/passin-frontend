@@ -83,6 +83,7 @@ export const addPassword = (payload: AddPasswordInterface) => async (dispatch: a
             }));
         })
         .catch((error: any) => {
+            console.log('error',error)
             let errorMessage: string = '';
             if (error.response) {
                 errorMessage = error.response.data.message;
