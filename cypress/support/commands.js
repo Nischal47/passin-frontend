@@ -23,3 +23,22 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+Cypress.Commands.add('login',()=>{
+    cy.fixture('user').then((details)=>{
+        cy.request('POST', 'http://localhost:8081/api/users/login', details).then((resp)=>{
+            window.localStorage.setItem('token',resp.body.token)
+            window.localStorage.setItem('refreshToken',resp.body.refreshToken)
+            const users = {
+                id : resp.body.user.id,
+                email : resp.body.user.email,
+                firstName : resp.body.user.firstName,
+                lastName : resp.body.user.lastName,
+                dateOfBirth : resp.body.user.dateOfBirth,
+            }
+            window.localStorage.setItem('user', JSON.stringify(users))
+        })
+    })
+
+})
