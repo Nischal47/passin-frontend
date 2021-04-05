@@ -2,12 +2,17 @@ import React, {useEffect, useState} from "react";
 import DashboardHeader from "../dashboardHeader/dashboardHeader";
 import TableComponent from "../../../../common/tableComponent";
 import {useDispatch, useSelector} from "react-redux";
-import {AddPasswordInterface, DecryptPasswordInterface, PasswordInterface} from "../../interface/homeInterfaces";
+import {
+    AddPasswordInterface,
+    DecryptPasswordInterface,
+    DeletePasswordInterface,
+    PasswordInterface
+} from "../../interface/homeInterfaces";
 import * as actions from '../../../../store/action'
 import Modal from "../../../../common/modal";
-import Confirmation from "../../../../common/modal/Confirmation";
 import EditPassword from "../EditPassword";
 import DecryptPassword from "../DecryptPassword";
+import DeletePassword from "../DeletePassword";
 
 const Content = () => {
     const [passwords, setPasswords] = useState<PasswordInterface[]>([]);
@@ -18,9 +23,10 @@ const Content = () => {
         hostName: '',
         email: '',
         password: '',
-        updatedOn:'',
+        updatedOn: '',
         userId: 0,
     });
+    const [passwordId, setPasswordId] = useState<number>(0);
     const [modalMode, setModalMode] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const dispatch = useDispatch();
@@ -47,18 +53,18 @@ const Content = () => {
     }, [passwordsList])
 
     useEffect(() => {
-        let mixedArray:PasswordInterface[] = passwords;
+        let mixedArray: PasswordInterface[] = passwords;
 
         // decryptedPasswords.filter
 
-        mixedArray.map((password:PasswordInterface) => (
-            decryptedPasswords.map((decryptedPassword:PasswordInterface) => (
+        mixedArray.map((password: PasswordInterface) => (
+            decryptedPasswords.map((decryptedPassword: PasswordInterface) => (
                 decryptedPassword.id === password.id ? password.password = decryptedPassword.password : password.password = password.password
             ))
         ))
 
         setPasswords(mixedArray);
-    },[decryptedPasswords])
+    }, [decryptedPasswords])
 
     const addAction = () => {
         setModalMode('add');
@@ -66,8 +72,8 @@ const Content = () => {
     }
 
     const addPassword = async (payload: AddPasswordInterface) => {
-       await dispatch(actions.addPassword(payload));
-       dispatch(actions.getPasswords());
+        await dispatch(actions.addPassword(payload));
+        dispatch(actions.getPasswords());
     }
 
     const editPassword = async (payload: AddPasswordInterface) => {
@@ -81,22 +87,20 @@ const Content = () => {
     }
     const deleteAction = (obj: any) => {
         setShowConfirmation(true);
-        // setEditProjectObj(obj);
-    }
-
-    const deleteConfirmation = async () => {
-        // await dispatch(actions.deleteProject(editProjectObj.id));
-        setShowConfirmation(false);
+        setPasswordId(obj.id);
     }
 
     const decryptAction = (obj: any) => {
         setEditPasswordObj(obj);
         setShowDecryptPasswordModal(true);
-
     }
 
-    const decryptPassword = async (payload:DecryptPasswordInterface) => {
+    const decryptPassword = async (payload: DecryptPasswordInterface) => {
         dispatch(actions.decryptPassword(payload));
+    }
+
+    const deletePassword = async (payload: DeletePasswordInterface) => {
+        dispatch(actions.deletePassword(payload));
     }
 
     return (
@@ -127,13 +131,16 @@ const Content = () => {
                                   editPasswordObj={editPasswordObj}
                                   closeModal={() => setShowAddOrEditPasswordModal(false)} mode={modalMode}/>
                 </Modal>
-                <Modal show={showDecryptPasswordModal} title='Decrypt Password'  closeModal={() => setShowDecryptPasswordModal(false)}>
-                    <DecryptPassword decryptPasswordObj={editPasswordObj} decryptPassword={decryptPassword} closeModal={() => setShowDecryptPasswordModal(false)}/>
+                <Modal show={showDecryptPasswordModal} title='Decrypt Password'
+                       closeModal={() => setShowDecryptPasswordModal(false)}>
+                    <DecryptPassword decryptPasswordObj={editPasswordObj} decryptPassword={decryptPassword}
+                                     closeModal={() => setShowDecryptPasswordModal(false)}/>
                 </Modal>
-                <Confirmation title="Confirm" content="Are you sure you want to delete this item?"
-                              show={showConfirmation}
-                              confirm={deleteConfirmation}
-                              closeModal={() => setShowConfirmation(false)}/>
+                <DeletePassword title="Confirm" content="Are you sure you want to delete this item?"
+                                passwordId={passwordId}
+                                show={showConfirmation}
+                                deletePassword={deletePassword}
+                                closeModal={() => setShowConfirmation(false)}/>
 
             </div>
         </>
