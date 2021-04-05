@@ -2,12 +2,13 @@ import * as actionTypes from './homeTypes';
 import store from "../../../store/store";
 import {GetRequest, PostRequest} from "../../../plugins/axios";
 import {setToasterState} from "../../../common/toaster/services/toasterAction";
-import {AddPasswordInterface, DecryptPasswordInterface} from "../interface/homeInterfaces";
+import {AddPasswordInterface, DecryptPasswordInterface, DeletePasswordInterface} from "../interface/homeInterfaces";
 
 const getPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/get-passwords'
 const getPasswordByIdUrl = process.env.REACT_APP_API_BASE_URL+'passwords/get-password'
 const addPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/save-password'
 const decryptPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/decrypt-password'
+const deletePasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/delete-password'
 
 const getPasswordsSuccess = (payload:any) => {
     return{
@@ -105,6 +106,39 @@ export const decryptPassword = (payload: DecryptPasswordInterface) => async (dis
     await PostRequest(decryptPasswordUrl, {
         'originalPassword':payload.originalPassword,
         'passwordId':payload.passwordId
+    }, {})
+        .then((response: any) => {
+            dispatch(setToasterState({
+                appear: true,
+                title: "success",
+                name: "Add Password Success",
+                message: `${response.data.message}`
+            }));
+            dispatch(decryptPasswordSuccess(response.data));
+        })
+        .catch((error: any) => {
+            let errorMessage: string = '';
+            if (error.response) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage = error.request.message;
+            } else {
+                errorMessage = "Can't access server";
+            }
+            dispatch(setToasterState({
+                appear: true,
+                title: "error",
+                name: "Decrypt Password Error",
+                message: `${errorMessage}`
+            }));
+        });
+}
+
+export const deletePassword = (payload: DeletePasswordInterface) => async  (dispatch:any) => {
+    await PostRequest(deletePasswordUrl, {
+        'originalPassword':payload.originalPassword,
+        'passwordId':payload.passwordId,
+        'userId':payload.userId
     }, {})
         .then((response: any) => {
             dispatch(setToasterState({

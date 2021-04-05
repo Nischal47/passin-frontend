@@ -8,6 +8,10 @@ export function PutRequest(url: string, data: any, config: any) {
     return axiosInstance.put(url, data, config);
 }
 
+export function DeleteRequest(url:string, data:any) {
+    return axiosInstance.delete(url,data);
+}
+
 export function GetRequest(url: string, data: any, config: any ){
     config.params = data;
     return axiosInstance.get(url, config);

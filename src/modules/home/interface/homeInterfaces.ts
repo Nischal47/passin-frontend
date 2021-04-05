@@ -25,3 +25,9 @@ export interface DecryptPasswordInterface {
     originalPassword:string,
     passwordId:number
 }
+
+export interface DeletePasswordInterface{
+    passwordId:number,
+    originalPassword:string,
+    userId:number
+}
