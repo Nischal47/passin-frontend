@@ -13,6 +13,7 @@ import Modal from "../../../../common/modal";
 import EditPassword from "../EditPassword";
 import DecryptPassword from "../DecryptPassword";
 import DeletePassword from "../DeletePassword";
+import store from "../../../../store/store";
 
 const Content = () => {
     const [passwords, setPasswords] = useState<PasswordInterface[]>([]);
@@ -30,6 +31,7 @@ const Content = () => {
     const [modalMode, setModalMode] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const dispatch = useDispatch();
+    const firstName = store.getState().authReducer?.user?.firstName ?? '';
 
     const [columns] = useState([
         "Host Name",
@@ -59,6 +61,7 @@ const Content = () => {
 
         mixedArray.map((password: PasswordInterface) => (
             decryptedPasswords.map((decryptedPassword: PasswordInterface) => (
+                // eslint-disable-next-line no-self-assign
                 decryptedPassword.id === password.id ? password.password = decryptedPassword.password : password.password = password.password
             ))
         ))
@@ -77,7 +80,8 @@ const Content = () => {
     }
 
     const editPassword = async (payload: AddPasswordInterface) => {
-        dispatch(actions.addPassword(payload));
+        await dispatch(actions.updatePassword(payload));
+        dispatch(actions.getPasswords());
     }
 
     const editAction = (obj: any) => {
@@ -107,7 +111,7 @@ const Content = () => {
         <>
             <div className='column full-height'>
                 <div className='dashboard-header'>
-                    <DashboardHeader/>
+                    <DashboardHeader firstName={firstName}/>
                 </div>
                 <div className='dashboard-content pa-md'>
                     <header className={'flex justify-between items-center mb-md'}>

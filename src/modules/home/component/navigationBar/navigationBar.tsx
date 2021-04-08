@@ -32,7 +32,7 @@ const NavigationBar = () => {
             <div className='navigations'>
                 {
                     navigationItems.map((item,key:number)=>(
-                        <NavigationMenuCard link={item.link} name={item.name} icon={item.icon}/>
+                        <NavigationMenuCard link={item.link} name={item.name} icon={item.icon} key={key}/>
                     ))
                 }
             </div>

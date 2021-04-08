@@ -4,6 +4,7 @@ import PasswordRule from "../PasswordRule";
 import {AddPasswordInterface, PasswordInterface} from "../interface/homeInterfaces";
 
 const initialState: AddPasswordInterface = {
+    passwordId: 0,
     hostName: '',
     email: '',
     password: '',
@@ -53,7 +54,7 @@ const EditPassword: React.FC<EditPasswordInterface> = (props) => {
             if (props.mode === 'add') {
                 await props.addPassword(password);
             } else {
-                await props.addPassword(password);
+                await props.editPassword(password);
             }
             props.closeModal();
         }
