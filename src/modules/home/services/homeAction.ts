@@ -1,6 +1,6 @@
 import * as actionTypes from './homeTypes';
 import store from "../../../store/store";
-import {GetRequest, PostRequest} from "../../../plugins/axios";
+import {GetRequestByParams, PostRequest} from "../../../plugins/axios";
 import {setToasterState} from "../../../common/toaster/services/toasterAction";
 import {
     AddPasswordInterface,
@@ -52,7 +52,7 @@ const decryptPasswordSuccess = (payload:any) => {
 export const getPasswords = () => async (dispatch:any) => {
     const userId = store.getState().authReducer?.user?.id;
 
-    GetRequest(getPasswordUrl, { 'user-id': userId }, {})
+    GetRequestByParams(getPasswordUrl, { 'user-id': userId }, {})
         .then((response: any) => {
             dispatch(getPasswordsSuccess(response.data));
         })
@@ -63,7 +63,7 @@ export const getPasswords = () => async (dispatch:any) => {
 
 export const getPasswordById = (passwordId:number) => async (dispatch:any) => {
 
-    GetRequest(getPasswordByIdUrl,{'password-id':passwordId},{})
+    GetRequestByParams(getPasswordByIdUrl,{'password-id':passwordId},{})
         .then((response:any) => {
             dispatch(getPasswordByIdSuccess(response.data));
         })
@@ -190,7 +190,6 @@ export const deletePassword = (payload: DeletePasswordInterface) => async  (disp
                 name: "Add Password Success",
                 message: `${response.data.message}`
             }));
-            dispatch(decryptPasswordSuccess(response.data));
         })
         .catch((error: any) => {
             let errorMessage: string = '';

@@ -34,7 +34,7 @@ const TableComponent = (props: any) => {
                             <td>{row.hostName}</td>
                             <td>{row.email}</td>
                             <td>{row.password}</td>
-                            <td>{moment(row.updatedOn).startOf('day').fromNow()}</td>
+                            <td>{moment(row.updatedOn).fromNow(true)}</td>
                             <td>
                                 {
                                     hasActions() &&

@@ -12,7 +12,11 @@ export function DeleteRequest(url:string, data:any) {
     return axiosInstance.delete(url,data);
 }
 
-export function GetRequest(url: string, data: any, config: any ){
+export function GetRequestByParams(url: string, data: any, config: any ){
     config.params = data;
     return axiosInstance.get(url, config);
+}
+
+export function GetRequest(url:string, data: any){
+    return axiosInstance.get(url,data)
 }

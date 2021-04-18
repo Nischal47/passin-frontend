@@ -12,8 +12,8 @@ import * as actions from "../../../../store/action";
 const NavigationBar = () => {
 
     const navigationItems:NavigationCardInterface[] = [
-        {icon:PasswordsIcon,link:'',name:'passwords'},
-        {icon:SettingIcon,link:'',name:'Settings'},
+        {icon:PasswordsIcon,link:'/dashboard',name:'passwords'},
+        {icon:SettingIcon,link:'/settings',name:'Settings'},
     ]
 
     const dispatch = useDispatch();
