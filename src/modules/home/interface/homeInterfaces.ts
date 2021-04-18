@@ -21,6 +21,14 @@ export interface AddPasswordInterface {
     originalPassword: string,
 }
 
+export interface UpdatePasswordInterface {
+    passwordId?:number,
+    hostName: string,
+    email: string,
+    password: string,
+    originalPassword: string,
+}
+
 export interface DecryptPasswordInterface {
     originalPassword:string,
     passwordId:number

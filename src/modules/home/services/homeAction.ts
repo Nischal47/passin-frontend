@@ -1,14 +1,20 @@
 import * as actionTypes from './homeTypes';
 import store from "../../../store/store";
-import {GetRequest, PostRequest} from "../../../plugins/axios";
+import {GetRequestByParams, PostRequest} from "../../../plugins/axios";
 import {setToasterState} from "../../../common/toaster/services/toasterAction";
-import {AddPasswordInterface, DecryptPasswordInterface, DeletePasswordInterface} from "../interface/homeInterfaces";
+import {
+    AddPasswordInterface,
+    DecryptPasswordInterface,
+    DeletePasswordInterface,
+    UpdatePasswordInterface
+} from "../interface/homeInterfaces";
 
 const getPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/get-passwords'
 const getPasswordByIdUrl = process.env.REACT_APP_API_BASE_URL+'passwords/get-password'
 const addPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/save-password'
 const decryptPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/decrypt-password'
 const deletePasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/delete-password'
+const updatePasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/update-password'
 
 const getPasswordsSuccess = (payload:any) => {
     return{
@@ -46,7 +52,7 @@ const decryptPasswordSuccess = (payload:any) => {
 export const getPasswords = () => async (dispatch:any) => {
     const userId = store.getState().authReducer?.user?.id;
 
-    GetRequest(getPasswordUrl, { 'user-id': userId }, {})
+    GetRequestByParams(getPasswordUrl, { 'user-id': userId }, {})
         .then((response: any) => {
             dispatch(getPasswordsSuccess(response.data));
         })
@@ -57,7 +63,7 @@ export const getPasswords = () => async (dispatch:any) => {
 
 export const getPasswordById = (passwordId:number) => async (dispatch:any) => {
 
-    GetRequest(getPasswordByIdUrl,{'password-id':passwordId},{})
+    GetRequestByParams(getPasswordByIdUrl,{'password-id':passwordId},{})
         .then((response:any) => {
             dispatch(getPasswordByIdSuccess(response.data));
         })
@@ -97,6 +103,43 @@ export const addPassword = (payload: AddPasswordInterface) => async (dispatch: a
                 appear: true,
                 title: "error",
                 name: "Add Password Error",
+                message: `${errorMessage}`
+            }));
+        });
+}
+
+export const updatePassword = (payload: UpdatePasswordInterface) => async (dispatch: any) => {
+    const userId = store.getState().authReducer?.user?.id;
+    await PostRequest(updatePasswordUrl, {
+        'hostName': payload.hostName,
+        'email': payload.email,
+        'password': payload.password,
+        'originalPassword': payload.originalPassword,
+        'userId': userId,
+        'passwordId': payload.passwordId
+    }, {})
+        .then((response: any) => {
+            dispatch(setToasterState({
+                appear: true,
+                title: "success",
+                name: "Update Password Success",
+                message: `${response.data.message}`
+            }));
+        })
+        .catch((error: any) => {
+            console.log('error',error)
+            let errorMessage: string = '';
+            if (error.response) {
+                errorMessage = error.response.data.message;
+            } else if (error.request) {
+                errorMessage = error.request.message;
+            } else {
+                errorMessage = "Can't access server";
+            }
+            dispatch(setToasterState({
+                appear: true,
+                title: "error",
+                name: "Update Password Error",
                 message: `${errorMessage}`
             }));
         });
@@ -147,7 +190,6 @@ export const deletePassword = (payload: DeletePasswordInterface) => async  (disp
                 name: "Add Password Success",
                 message: `${response.data.message}`
             }));
-            dispatch(decryptPasswordSuccess(response.data));
         })
         .catch((error: any) => {
             let errorMessage: string = '';

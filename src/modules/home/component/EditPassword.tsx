@@ -2,8 +2,14 @@ import React, {useEffect, useState} from "react";
 import {ValidateForm, ValidateInput} from "../../../utills/customHooks/validateForm";
 import PasswordRule from "../PasswordRule";
 import {AddPasswordInterface, PasswordInterface} from "../interface/homeInterfaces";
+import {GetRequest} from "../../../plugins/axios";
+import {setToasterState} from "../../../common/toaster/services/toasterAction";
+import {useDispatch} from "react-redux";
+
+const generatePasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/generate-random-password'
 
 const initialState: AddPasswordInterface = {
+    passwordId: 0,
     hostName: '',
     email: '',
     password: '',
@@ -19,7 +25,12 @@ interface EditPasswordInterface {
 }
 
 const EditPassword: React.FC<EditPasswordInterface> = (props) => {
-    const [password, setPassword] = useState<AddPasswordInterface>({...initialState, passwordId: props.editPasswordObj.id ?? 0})
+    const [password, setPassword] = useState<AddPasswordInterface>({
+        ...initialState,
+        passwordId: props.editPasswordObj.id ?? 0
+    })
+
+    const dispatch = useDispatch();
     const [errors, setErrors] = useState(initialState);
     useEffect(() => {
         if (props.mode === 'edit') {
@@ -53,7 +64,7 @@ const EditPassword: React.FC<EditPasswordInterface> = (props) => {
             if (props.mode === 'add') {
                 await props.addPassword(password);
             } else {
-                await props.addPassword(password);
+                await props.editPassword(password);
             }
             props.closeModal();
         }
@@ -68,9 +79,48 @@ const EditPassword: React.FC<EditPasswordInterface> = (props) => {
         });
     }
 
+
+    const onGenerateRandomPassword = () => {
+        GetRequest(generatePasswordUrl,{
+            'minLength':8,
+            'maxLength':12
+        })
+            .then((response: any) => {
+                dispatch(setToasterState({
+                    appear: true,
+                    title: "success",
+                    name: "Password Generation",
+                    message: `${response.data.message}`
+                }));
+                setPassword({
+                    passwordId: password.passwordId,
+                    originalPassword: password.originalPassword,
+                    email: password.email,
+                    hostName: password.hostName,
+                    password: response.data.password
+                })
+            })
+            .catch((error: any) => {
+                let errorMessage: string = '';
+                if (error.response) {
+                    errorMessage = error.response.data.message;
+                } else if (error.request) {
+                    errorMessage = error.request.message;
+                } else {
+                    errorMessage = "Can't access server";
+                }
+                dispatch(setToasterState({
+                    appear: true,
+                    title: "error",
+                    name: "Add Password Error",
+                    message: `${errorMessage}`
+                }));
+            });
+    }
+
     return (
         <div className="edit-client dialog-content">
-            <form className="dialog-content-area" onSubmit={confirmAction}>
+            <form className="dialog-content-area" onSubmit={confirmAction} autoComplete="off">
                 <div className="form-group my-md">
                     <label>Host Name</label>
                     <input type="text" name={'hostName'} onBlur={inputValidation}
@@ -83,15 +133,22 @@ const EditPassword: React.FC<EditPasswordInterface> = (props) => {
                     <label>Email</label>
                     <input type="text" name={'email'} onBlur={inputValidation}
                            value={password.email}
-                           onChange={inputHandler}/>
+                           onChange={inputHandler}
+                           autoComplete="off"
+                    />
                     {errors.email !== '' ?
                         <span className="error-text">{errors.email}</span> : ''}
                 </div>
                 <div className="form-group my-md">
                     <label>password</label>
-                    <input type="password" name={'password'} onBlur={inputValidation}
-                           value={password.password}
-                           onChange={inputHandler}/>
+                    <div className='flex justify-between'>
+                        <input className='mr-xl flex-1' type="password" name={'password'} onBlur={inputValidation}
+                               value={password.password}
+                               onChange={inputHandler}
+                                autoComplete={"off"}
+                        />
+                        <div className='btn pointer' onClick={() => onGenerateRandomPassword()}>Generate Password</div>
+                    </div>
                     {errors.password !== '' ?
                         <span className="error-text">{errors.password}</span> : ''}
                 </div>

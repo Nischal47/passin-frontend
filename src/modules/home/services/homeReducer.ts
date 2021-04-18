@@ -3,13 +3,20 @@ import {PasswordInterface} from "../interface/homeInterfaces";
 
 interface HomeReducerInterface{
     passwords:PasswordInterface[],
-    decryptedPassword:PasswordInterface[],
+    decryptedPassword:PasswordInterface,
     password:PasswordInterface
 }
 
 const initialState: HomeReducerInterface = {
     passwords: [],
-    decryptedPassword:[],
+    decryptedPassword: {
+        password:'',
+        id:0,
+        updatedOn:'',
+        email:'',
+        hostName:'',
+        userId:0
+    },
     password:{
         id:0,
         hostName:'',
@@ -35,7 +42,7 @@ export default (state: HomeReducerInterface = initialState, action: any) => {
         case  actionTypes.DECRYPT_PASSWORD_SUCCESS:
             return {
                 ...state,
-                decryptedPassword: [...state.decryptedPassword, action.payload.decryptedPassword]
+                decryptedPassword:  action.payload.decryptedPassword
             }
         default:
             return state;

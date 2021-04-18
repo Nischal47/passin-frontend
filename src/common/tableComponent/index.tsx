@@ -4,6 +4,7 @@ import './tableComponent.scss';
 import EditIcon from '../../assets/images/edit.svg';
 import DeleteIcon from '../../assets/images/delete.svg';
 import DecryptIcon from '../../assets/images/decrypt.svg';
+import moment from "moment";
 
 const TableComponent = (props: any) => {
 
@@ -33,7 +34,7 @@ const TableComponent = (props: any) => {
                             <td>{row.hostName}</td>
                             <td>{row.email}</td>
                             <td>{row.password}</td>
-                            <td>{row.updatedOn}</td>
+                            <td>{moment(row.updatedOn).fromNow(true)}</td>
                             <td>
                                 {
                                     hasActions() &&
