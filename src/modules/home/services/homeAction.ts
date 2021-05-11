@@ -1,6 +1,6 @@
 import * as actionTypes from './homeTypes';
 import store from "../../../store/store";
-import {GetRequestByParams, PostRequest} from "../../../plugins/axios";
+import {GetRequest, PostRequest} from "../../../plugins/axios";
 import {setToasterState} from "../../../common/toaster/services/toasterAction";
 import {
     AddPasswordInterface,
@@ -52,7 +52,7 @@ const decryptPasswordSuccess = (payload:any) => {
 export const getPasswords = () => async (dispatch:any) => {
     const userId = store.getState().authReducer?.user?.id;
 
-    GetRequestByParams(getPasswordUrl, { 'user-id': userId }, {})
+    GetRequest(getPasswordUrl, { 'user-id': userId }, {})
         .then((response: any) => {
             dispatch(getPasswordsSuccess(response.data));
         })
@@ -63,7 +63,7 @@ export const getPasswords = () => async (dispatch:any) => {
 
 export const getPasswordById = (passwordId:number) => async (dispatch:any) => {
 
-    GetRequestByParams(getPasswordByIdUrl,{'password-id':passwordId},{})
+    GetRequest(getPasswordByIdUrl,{'password-id':passwordId},{})
         .then((response:any) => {
             dispatch(getPasswordByIdSuccess(response.data));
         })
@@ -90,12 +90,10 @@ export const addPassword = (payload: AddPasswordInterface) => async (dispatch: a
             }));
         })
         .catch((error: any) => {
-            console.log('error',error)
+            console.log('error Request',error)
             let errorMessage: string = '';
             if (error.response) {
                 errorMessage = error.response.data.message;
-            } else if (error.request) {
-                errorMessage = error.request.message;
             } else {
                 errorMessage = "Can't access server";
             }
