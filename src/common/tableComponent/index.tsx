@@ -34,7 +34,8 @@ const TableComponent = (props: any) => {
                             <td>{row.hostName}</td>
                             <td>{row.email}</td>
                             <td>{row.password}</td>
-                            <td>{moment(row.updatedOn).fromNow(true)}</td>
+                            {/*<td>{moment(row.updatedOn).fromNow(true)}</td>*/}
+                            <td>{((Date.now() - (30 * 24 * 60 * 60 * 1000)) - row.updatedOn) < 0 ? moment(row.updatedOn).fromNow(true) : "Change Your Password" }</td>
                             <td>
                                 {
                                     hasActions() &&

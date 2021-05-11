@@ -84,7 +84,7 @@ const EditPassword: React.FC<EditPasswordInterface> = (props) => {
         GetRequest(generatePasswordUrl,{
             'minLength':8,
             'maxLength':12
-        })
+        },{})
             .then((response: any) => {
                 dispatch(setToasterState({
                     appear: true,
