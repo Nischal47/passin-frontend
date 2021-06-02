@@ -13,6 +13,8 @@ import Modal from "../../../../common/modal";
 import EditPassword from "../EditPassword";
 import DecryptPassword from "../DecryptPassword";
 import DeletePassword from "../DeletePassword";
+import store from "../../../../store/store";
+
 
 const Content = () => {
     const [passwords, setPasswords] = useState<PasswordInterface[]>([]);
@@ -30,6 +32,7 @@ const Content = () => {
     const [modalMode, setModalMode] = useState('');
     const [showConfirmation, setShowConfirmation] = useState(false);
     const dispatch = useDispatch();
+    const firstName = store.getState().authReducer?.user?.firstName ?? '';
 
     const [columns] = useState([
         "Host Name",
@@ -45,7 +48,7 @@ const Content = () => {
     }, [])
 
     const passwordsList = useSelector((state: any) => state.homeReducer.passwords);
-    const decryptedPasswords = useSelector((state: any) => state.homeReducer.decryptedPassword);
+    const decryptedPassword = useSelector((state: any) => state.homeReducer.decryptedPassword);
 
     useEffect(() => {
         setPasswords(passwordsList)
@@ -53,18 +56,14 @@ const Content = () => {
     }, [passwordsList])
 
     useEffect(() => {
-        let mixedArray: PasswordInterface[] = passwords;
-
-        // decryptedPasswords.filter
-
-        mixedArray.map((password: PasswordInterface) => (
-            decryptedPasswords.map((decryptedPassword: PasswordInterface) => (
-                decryptedPassword.id === password.id ? password.password = decryptedPassword.password : password.password = password.password
-            ))
-        ))
-
-        setPasswords(mixedArray);
-    }, [decryptedPasswords])
+        passwords.filter((password) => {
+            if (decryptedPassword && password.id === decryptedPassword.id) {
+                password.password = decryptedPassword.password;
+            }
+            return 0;
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [decryptedPassword])
 
     const addAction = () => {
         setModalMode('add');
@@ -77,7 +76,8 @@ const Content = () => {
     }
 
     const editPassword = async (payload: AddPasswordInterface) => {
-        dispatch(actions.addPassword(payload));
+        await dispatch(actions.updatePassword(payload));
+        dispatch(actions.getPasswords());
     }
 
     const editAction = (obj: any) => {
@@ -100,14 +100,15 @@ const Content = () => {
     }
 
     const deletePassword = async (payload: DeletePasswordInterface) => {
-        dispatch(actions.deletePassword(payload));
+        await dispatch(actions.deletePassword(payload));
+        dispatch(actions.getPasswords());
     }
 
     return (
         <>
             <div className='column full-height'>
                 <div className='dashboard-header'>
-                    <DashboardHeader/>
+                    <DashboardHeader firstName={firstName}/>
                 </div>
                 <div className='dashboard-content pa-md'>
                     <header className={'flex justify-between items-center mb-md'}>

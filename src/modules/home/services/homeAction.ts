@@ -2,13 +2,19 @@ import * as actionTypes from './homeTypes';
 import store from "../../../store/store";
 import {GetRequest, PostRequest} from "../../../plugins/axios";
 import {setToasterState} from "../../../common/toaster/services/toasterAction";
-import {AddPasswordInterface, DecryptPasswordInterface, DeletePasswordInterface} from "../interface/homeInterfaces";
+import {
+    AddPasswordInterface,
+    DecryptPasswordInterface,
+    DeletePasswordInterface,
+    UpdatePasswordInterface
+} from "../interface/homeInterfaces";
 
 const getPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/get-passwords'
 const getPasswordByIdUrl = process.env.REACT_APP_API_BASE_URL+'passwords/get-password'
 const addPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/save-password'
 const decryptPasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/decrypt-password'
 const deletePasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/delete-password'
+const updatePasswordUrl = process.env.REACT_APP_API_BASE_URL+'passwords/update-password'
 
 const getPasswordsSuccess = (payload:any) => {
     return{
@@ -84,6 +90,41 @@ export const addPassword = (payload: AddPasswordInterface) => async (dispatch: a
             }));
         })
         .catch((error: any) => {
+            console.log('error Request',error)
+            let errorMessage: string = '';
+            if (error.response) {
+                errorMessage = error.response.data.message;
+            } else {
+                errorMessage = "Can't access server";
+            }
+            dispatch(setToasterState({
+                appear: true,
+                title: "error",
+                name: "Add Password Error",
+                message: `${errorMessage}`
+            }));
+        });
+}
+
+export const updatePassword = (payload: UpdatePasswordInterface) => async (dispatch: any) => {
+    const userId = store.getState().authReducer?.user?.id;
+    await PostRequest(updatePasswordUrl, {
+        'hostName': payload.hostName,
+        'email': payload.email,
+        'password': payload.password,
+        'originalPassword': payload.originalPassword,
+        'userId': userId,
+        'passwordId': payload.passwordId
+    }, {})
+        .then((response: any) => {
+            dispatch(setToasterState({
+                appear: true,
+                title: "success",
+                name: "Update Password Success",
+                message: `${response.data.message}`
+            }));
+        })
+        .catch((error: any) => {
             console.log('error',error)
             let errorMessage: string = '';
             if (error.response) {
@@ -96,7 +137,7 @@ export const addPassword = (payload: AddPasswordInterface) => async (dispatch: a
             dispatch(setToasterState({
                 appear: true,
                 title: "error",
-                name: "Add Password Error",
+                name: "Update Password Error",
                 message: `${errorMessage}`
             }));
         });
@@ -147,7 +188,6 @@ export const deletePassword = (payload: DeletePasswordInterface) => async  (disp
                 name: "Add Password Success",
                 message: `${response.data.message}`
             }));
-            dispatch(decryptPasswordSuccess(response.data));
         })
         .catch((error: any) => {
             let errorMessage: string = '';
