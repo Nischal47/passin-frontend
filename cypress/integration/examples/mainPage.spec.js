@@ -5,7 +5,7 @@ describe('Actions', () => {
       cy.login()
 
       //always check for user id.
-      cy.intercept('GET','http://localhost:8081/api/passwords/get-passwords?user-id=3').as('password')
+      cy.intercept('GET','http://localhost:8080/api/passwords/get-passwords?user-id=3').as('password')
     })
     
     it('Visits login page', () => {
@@ -37,7 +37,7 @@ describe('Actions', () => {
           'bearer' : window.localStorage.getItem('token')
         },
         //check for user id in pwd.json
-        url:'http://localhost:8081/api/passwords/save-password', failOnStatusCode: false, body: pwd})
+        url:'http://localhost:8080/api/passwords/save-password', failOnStatusCode: false, body: pwd})
       })
       cy.reload()
       cy.wait('@password').then((resp)=>{
@@ -62,7 +62,7 @@ describe('Actions', () => {
 
         cy.get(`:nth-child(${pwdLength}) > :nth-child(5) > .actions > .pointer`).eq(1).click()
               cy.get('input[name="originalPassword"][type="password"]').type('qqqqqqqq')
-            cy.intercept('POST','http://localhost:8081/api/passwords/decrypt-password').as('getPassword')
+            cy.intercept('POST','http://localhost:8080/api/passwords/decrypt-password').as('getPassword')
             cy.get('.button-area > .btn').contains('Confirm').click()
             cy.wait('@getPassword').then((resp)=>{
               cy.get(`.content-table > tbody > :nth-child(${pwdLength}) > :nth-child(3) `).should('have.text',resp.response.body.decryptedPassword.password)

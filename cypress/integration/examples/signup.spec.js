@@ -15,7 +15,7 @@ describe("Signup and Login Test", () => {
       });
   
       it("Test valid signup and Login", () => {
-        cy.intercept('POST','http://localhost:8081/api/users/register').as('signUp')
+        cy.intercept('POST','http://localhost:8080/api/users/register').as('signUp')
         cy.get('form').within(($form) => {
             cy.get('input[type="email"][name="email"][placeholder="Enter email"]').type(email)
             cy.get('input[type="text"][name="firstName"][placeholder="Enter First Name"]').type(firstName)
