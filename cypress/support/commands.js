@@ -27,7 +27,7 @@
 
 Cypress.Commands.add('login',()=>{
     cy.fixture('user').then((details)=>{
-        cy.request('POST', 'http://localhost:8081/api/users/login', details).then((resp)=>{
+        cy.request('POST', 'http://localhost:8080/api/users/login', details).then((resp)=>{
             window.localStorage.setItem('token',resp.body.token)
             window.localStorage.setItem('refreshToken',resp.body.refreshToken)
             const users = {

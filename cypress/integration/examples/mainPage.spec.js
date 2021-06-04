@@ -42,9 +42,6 @@ describe('Actions', () => {
       cy.reload()
       cy.wait('@password').then((resp)=>{
         expect(resp.response.body).to.have.property('passwordList');
-        const {
-          passwordList
-        } = resp.response.body.passwordList.length;
         const pwdLength = resp.response.body.passwordList.length
         cy.log(resp.response.body.passwordList.length)
         if(pwdLength != 0){
