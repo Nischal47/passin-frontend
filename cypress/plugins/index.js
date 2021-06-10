@@ -42,15 +42,18 @@ function getDBDataAsync() {
   const pool = new Pool(dbConfig.db)
   const query = "select * from users";
   return new Promise((resolve, reject) => {
-  pool.query(query, (err, res) => {
-    console.log("connected to db")
-    pool.end() 
-    if(err){
-      reject(err)
-    }
-    else{
-      resolve(res)
-    }
+    pool.connect(function(err){
+      if (err) throw err;
+      console.log("connected to db")
+      pool.query(query, (err, res) => {
+        pool.end() 
+        if(err){
+          reject(err)
+        }
+        else{
+          resolve(res)
+        }
+    })
   })
 })
 }
@@ -59,14 +62,18 @@ function getDBDataAsync() {
 function dbQuery(query) {
   const pool = new Pool(dbConfig.db)
   return new Promise((resolve, reject) => {
-  pool.query(query, (err, res) => {
-    pool.end() 
-    if(err){
-      reject(err)
-    }
-    else{
-      resolve(res)
-    }
+    pool.connect(function(err){
+      if (err) throw err;
+      console.log("connected to db")
+      pool.query(query, (err, res) => {
+        pool.end() 
+        if(err){
+          reject(err)
+        }
+        else{
+          resolve(res)
+        }
+    })
   })
 })
 }

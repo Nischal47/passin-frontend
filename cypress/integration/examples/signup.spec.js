@@ -1,13 +1,13 @@
 /// <reference types="cypress" />
 
-describe("Signup and Login Test", () => {
+describe("Registration Test", () => {
     let randomString = Math.random().toString(36).substring(2);
     const email = "email_" + randomString + randomString + "@gmail.com";
     const firstName = "fName" + randomString + randomString;
     const lastName = "lName" + randomString + randomString;
     const password = "Password1";
   
-    describe("UI tests", () => {
+    describe("Successful Resgistration", () => {
       beforeEach(() => {
         cy.log("Email: " + email);
         cy.log("Password: " + password);
@@ -33,6 +33,7 @@ describe("Signup and Login Test", () => {
             cy.get('.btn').click()
         })
         cy.get('.logo').should('be.visible')
+        cy.get('.user-name > .sub-title').contains(firstName).should('be.visible')
 
       });
     })

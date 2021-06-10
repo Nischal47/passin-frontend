@@ -25,9 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 
-Cypress.Commands.add('login',()=>{
-    cy.fixture('user').then((details)=>{
-        cy.request('POST', 'http://localhost:8080/api/users/login', details).then((resp)=>{
+Cypress.Commands.add('login',(email, password)=>{
+        cy.request('POST', 'http://localhost:8080/api/users/login', {"email":email, "password":password}).then((resp)=>{
             window.localStorage.setItem('token',resp.body.token)
             window.localStorage.setItem('refreshToken',resp.body.refreshToken)
             const users = {
@@ -38,7 +37,7 @@ Cypress.Commands.add('login',()=>{
                 dateOfBirth : resp.body.user.dateOfBirth,
             }
             window.localStorage.setItem('user', JSON.stringify(users))
-        })
+            return JSON.parse(window.localStorage.getItem('user'))
     })
 
 })
