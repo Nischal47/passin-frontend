@@ -1,4 +1,8 @@
 {
     "email":"chhunjus@gmail.com",
-    "password":"qqqqqqqq"
+    "password":"qqqqqqqq",
+    "dateOfBirth": 797212800000,
+    "firstName": "Sharad",
+    "id": 2,
+    "lastName": "Chhunju"
 }
