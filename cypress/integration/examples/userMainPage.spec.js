@@ -23,12 +23,11 @@ describe('Actions', () => {
             expect(request.method).to.equal('GET')
             expect(response.body).to.have.property('passwordList')
             // expect(response.body.passwordList).to.have.lengthOf(3)
-            cy.log(response.body.passwordList)
+          cy.log("password length = " + response.body.passwordList.length)
     })
   })
 
   it('decrypt last/bottom password',()=>{
-
     //CHECK IF added password is decrypted or not.
     cy.wait('@password').then((resp)=>{
       const pwdLength = resp.response.body.passwordList.length
@@ -49,17 +48,20 @@ describe('Actions', () => {
   })
 })
   
-describe('Add password',()=>{
-  let userId;
+describe('Add/Delete password',()=>{
+  let user_id;
+  let user_detail;
   beforeEach('Logins',() => {
     cy.fixture('user').then((resp)=>{
+      user_detail=resp;
       cy.login(resp.email, resp.password).then((data)=>{
-        userId = data.id
+        user_id = data.id
       })
     })
-  })
-  it('Check for display of latest added password ', () => {
     cy.visit('/')
+  })
+
+  it('Check for display of latest added password ', () => {
     cy.fixture('savePassword').then((pwd)=>{
       //add new password.
       cy.request({
@@ -72,15 +74,54 @@ describe('Add password',()=>{
       })
     })
     //always check for user id.
-    cy.intercept('GET',`http://localhost:8080/api/passwords/get-passwords?user-id=${userId}`).as('password')
+    cy.intercept('GET',`http://localhost:8080/api/passwords/get-passwords?user-id=${user_id}`).as('password')
     cy.reload()
     cy.wait('@password').then((resp)=>{
       expect(resp.response.body).to.have.property('passwordList');
       const pwdLength = resp.response.body.passwordList.length
-      cy.log(resp.response.body.passwordList.length)
+      cy.log("password length = " + resp.response.body.passwordList.length)
       if(pwdLength != 0){
         //the latest added password should not be empty.
         cy.get(`.content-table > tbody > :nth-child(${pwdLength}) > :nth-child(3) `).should('not.be.empty')
+      }
+      else {
+        cy.log('User doesnot have saved passwords.')
+      }
+    }) 
+  })
+  
+  it('Deletes password from UI', () => {
+    //always check for user id.
+    cy.intercept('GET',`http://localhost:8080/api/passwords/get-passwords?user-id=${user_id}`).as('password')
+    cy.reload()
+    //check for length of passwords saved
+    cy.wait('@password').then((resp)=>{
+      expect(resp.response.body).to.have.property('passwordList');
+      const pwdLength = resp.response.body.passwordList.length
+      cy.log("password length = " + resp.response.body.passwordList.length)
+      //when saved password is not empty
+      if(pwdLength != 0){
+        //delete password
+        cy.get(`.content-table > tbody > :nth-child(${pwdLength}) > :nth-child(5) > .actions > .pointer`).eq(2).click()
+        cy.get('input[type="password"][placeholder="Enter Original Password"]').type(user_detail.password)
+        cy.intercept('POST','http://localhost:8080/api/passwords/delete-password').as('deletePassword')
+        cy.get('.buttons-area > .btn').contains('Confirm').click()
+        cy.wait('@deletePassword').then((response)=>{
+          expect(response.response.body.message).to.equal('Password Deleted Successfully')
+        })
+        //again check if saved passwords exists
+        cy.wait('@password').then((resp)=>{
+          expect(resp.response.body).to.have.property('passwordList');
+          const pwdLength = resp.response.body.passwordList.length
+          cy.log("password length = " + resp.response.body.passwordList.length)
+          //if saved password/s exists
+          if(pwdLength != 0){
+            cy.get('.content-table > tbody').find('tr').should('have.length', pwdLength)
+          }
+          else {
+            cy.log('User doesnot have saved passwords.')
+          }
+        }) 
       }
     }) 
   })
