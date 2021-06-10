@@ -60,7 +60,7 @@ describe('Add password',()=>{
   })
   it('Check for display of latest added password ', () => {
     cy.visit('/')
-    cy.fixture('pwd').then((pwd)=>{
+    cy.fixture('savePassword').then((pwd)=>{
       //add new password.
       cy.request({
         method:'POST', 
