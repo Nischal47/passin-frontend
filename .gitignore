@@ -8,6 +8,9 @@
 
 # testing
 /coverage
+cypress/results
+/mochawesome-report
+mochawesomeFinal.json
 
 # production
 /build

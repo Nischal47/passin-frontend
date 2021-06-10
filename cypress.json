@@ -3,5 +3,10 @@
     "viewportWidth": 1920,
     "viewportHeight": 1080,
     "defaultCommandTimeout" : 6000,
-    "projectId": "75soax"
+    "projectId": "75soax",
+    "video": false,
+    "reporter": "cypress-multi-reporters",
+    "reporterOptions": {
+      "configFile": "reporter-config.json"
+    }
 }
