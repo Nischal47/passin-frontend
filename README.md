@@ -44,3 +44,14 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+## Cypress
+Cypress is used for e2e testing.
+
+## Cypress Report Generator (npm run cy:report)
+Cypress-Multi-Reporters along with Mochawesome is used for report generation. 
+After running tests in CLI, `mochawesome.json`, `mochawesome1.json`...., files are created into `cypress/results/mochawesome` folder. Then those files are merged into a single `mochawesomeFinal.json` file in the main directory. The `mochawesomeFinal.json` is then converted into `mochawesomeFinal.html` file in`mochawesome-report` folder where test reports can be seen.
+
+## Included in .gitignore
+The folder and files related to tests reports are all placed in .gitignore.

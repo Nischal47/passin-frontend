@@ -39,7 +39,12 @@
     "eject": "react-scripts eject",
     "cy:test": "npx cypress run --record --key a7632bcc-172b-4d8d-8ad9-7466cefd78e3",
     "runHeadless": "npx cypress run --headless",
-    "cy:chrome": "cypress run --browser chrome --headless"
+    "cy:chrome": "cypress run --browser chrome --headless",
+    "mochawesome-merge": "npx mochawesome-merge cypress/results/mochawesome/*.json > mochawesomeFinal.json",
+    "mochawesome-html-report": "npx marge mochawesomeFinal.json",
+    "delete:reports": "rm cypress/results/mochawesome/* || true",
+    "prereport": "npm run delete:reports",
+    "cy:report": "npm run prereport & npx cypress run & npm run mochawesome-merge & npm run mochawesome-html-report"
   },
   "eslintConfig": {
     "extends": [
@@ -60,7 +65,13 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^6.8.0",
+    "cypress": "^7.0.0",
+    "cypress-multi-reporters": "^1.5.0",
+    "mocha": "^9.0.0",
+    "mocha-junit-reporter": "^2.0.0",
+    "mochawesome": "^6.2.2",
+    "mochawesome-merge": "^4.2.0",
+    "mochawesome-report-generator": "^5.2.0",
     "redux-devtools-extension": "^2.13.8"
   }
 }
