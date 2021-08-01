@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 describe('Tasks', () => {
-  const apiUrl = 'http://localhost:8081/api';
+  const apiUrl = Cypress.env('api_url');
 
   it('No param', () => {
     cy.task("noParam").then((res)=>{

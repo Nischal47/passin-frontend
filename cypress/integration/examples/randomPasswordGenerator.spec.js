@@ -1,5 +1,5 @@
 describe('Actions', () => {
-  const apiUrl = 'http://localhost:8081/api';
+  const apiUrl = Cypress.env('api_url');
 
     beforeEach('Logins',() => {
       cy.fixture('user').then((resp)=>{

@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 describe("Registration Test", () => {
-  const apiUrl = 'http://localhost:8081/api';
+  const apiUrl = Cypress.env('api_url');
 
     let randomString = Math.random().toString(36).substring(2);
     const email = "email_" + randomString + randomString + "@gmail.com";

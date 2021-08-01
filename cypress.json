@@ -1,5 +1,8 @@
 {
     "baseUrl": "http://localhost:3000",
+    "env": {
+      "api_url": "http://localhost:8081/api"
+    },
     "viewportWidth": 1920,
     "viewportHeight": 1080,
     "defaultCommandTimeout" : 6000,
