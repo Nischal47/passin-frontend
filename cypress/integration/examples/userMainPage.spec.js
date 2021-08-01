@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 describe('Actions', () => {
-  const apiUrl = 'http://localhost:8081/api';
+  const apiUrl = Cypress.env('api_url');
   let userId;
   let userDetail;
   beforeEach('Logins',() => {

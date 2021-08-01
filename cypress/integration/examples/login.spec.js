@@ -2,7 +2,7 @@
 
 
 describe('Login Using Email', () =>{
-    const apiUrl = 'http://localhost:8081/api';
+    const apiUrl = Cypress.env('api_url');
     const wrongPassword = 'qqqqqq'
     let email, password, firstName;
     before(()=>{

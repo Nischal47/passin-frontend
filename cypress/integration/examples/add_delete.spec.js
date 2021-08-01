@@ -1,18 +1,12 @@
 describe('Add/Delete password',()=>{
-  const apiUrl = 'http://localhost:8081/api';
-    let user_id;
-    let user_detail;
-    beforeEach('Logins', () => {
-        cy.fixture('user').then((resp) => {
-            user_detail = resp;
-            cy.login(resp.email, resp.password).then((data) => {
-                user_id = data.id
-            })
-        })
-        cy.visit('/')
-    })
+  const apiUrl = Cypress.env('api_url');
+  let user_id;
+  let user_detail;
+  beforeEach('Logins', () => {
 
-    it('Check for display of latest added password ', () => {
+  })
+
+    it.only('Check for display of latest added password ', () => {
       //always check for user id.
       cy.intercept('GET', apiUrl + `/passwords/get-passwords?user-id=${user_id}`).as('password')
       cy.visit('/')
@@ -40,7 +34,6 @@ describe('Add/Delete password',()=>{
             })
           })
         //always check for user id.
-        cy.intercept('GET',apiUrl + `/passwords/get-passwords?user-id=${user_id}`).as('password')
         cy.visit('/')
         cy.wait('@password').then((resp)=>{
           expect(resp.response.body).to.have.property('passwordList');

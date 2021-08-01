@@ -10,7 +10,7 @@
 /coverage
 /cypress/results
 /mochawesome-report
-/cypress/screenshot
+/cypress/screenshots
 mochawesomeFinal.json
 
 # production
