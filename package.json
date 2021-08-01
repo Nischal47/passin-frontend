@@ -65,7 +65,7 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^7.0.0",
+    "cypress": "^8.1.0",
     "cypress-multi-reporters": "^1.5.0",
     "mocha": "^9.0.0",
     "mocha-junit-reporter": "^2.0.0",
