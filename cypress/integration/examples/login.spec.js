@@ -2,6 +2,7 @@
 
 
 describe('Login Using Email', () =>{
+    const apiUrl = 'http://localhost:8081/api';
     const wrongPassword = 'qqqqqq'
     let email, password, firstName;
     before(()=>{
@@ -95,7 +96,7 @@ describe('Login Using Email', () =>{
     it('navigates to homepage on successful login',()=>{
         cy.get('input[type="email"][name="email"]').type(email)
         cy.get('input[type="password"][name="password"]').type(password)
-        cy.intercept('POST','http://localhost:8080/api/users/login').as('login')
+        cy.intercept('POST',apiUrl + '/users/login').as('login')
         cy.get('button[type="submit"]').click()
         cy.wait('@login')
         cy.get('.user-name > .sub-title').contains(firstName).should('be.visible')

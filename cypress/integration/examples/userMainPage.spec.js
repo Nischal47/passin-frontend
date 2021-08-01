@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 describe('Actions', () => {
+  const apiUrl = 'http://localhost:8081/api';
   let userId;
   let userDetail;
   beforeEach('Logins',() => {
@@ -9,7 +10,7 @@ describe('Actions', () => {
       cy.login(resp.email, resp.password).then((data)=>{
         userId = data.id
         //always check for user id.
-        cy.intercept('GET',`http://localhost:8080/api/passwords/get-passwords?user-id=${userId}`).as('password')
+        cy.intercept('GET',apiUrl + `/passwords/get-passwords?user-id=${userId}`).as('password')
       })
       cy.visit('/')
     })
@@ -34,7 +35,7 @@ describe('Actions', () => {
         //click on decrypt password button icon
         cy.get(`:nth-child(${pwdLength}) > :nth-child(5) > .actions > .pointer`).eq(1).click()
         cy.get('input[name="originalPassword"][type="password"]').type(userDetail.password)
-        cy.intercept('POST','http://localhost:8080/api/passwords/decrypt-password').as('getPassword')
+        cy.intercept('POST',apiUrl + '/passwords/decrypt-password').as('getPassword')
         cy.get('.button-area > .btn').contains('Confirm').click()
         cy.wait('@getPassword').then((resp)=>{
           cy.get(`.content-table > tbody > :nth-child(${pwdLength}) > :nth-child(3) `).should('have.text',resp.response.body.decryptedPassword.password)

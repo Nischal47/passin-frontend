@@ -26,7 +26,7 @@
 
 
 Cypress.Commands.add('login',(email, password)=>{
-        cy.request('POST', 'http://localhost:8080/api/users/login', {"email":email, "password":password}).then((resp)=>{
+        cy.request('POST', 'http://localhost:8081/api/users/login', {"email":email, "password":password}).then((resp)=>{
             window.localStorage.setItem('token',resp.body.token)
             window.localStorage.setItem('refreshToken',resp.body.refreshToken)
             const users = {

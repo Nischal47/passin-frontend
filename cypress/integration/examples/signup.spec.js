@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
 describe("Registration Test", () => {
+  const apiUrl = 'http://localhost:8081/api';
+
     let randomString = Math.random().toString(36).substring(2);
     const email = "email_" + randomString + randomString + "@gmail.com";
     const firstName = "fName" + randomString + randomString;
@@ -15,7 +17,7 @@ describe("Registration Test", () => {
       });
   
       it("Test valid signup and Login", () => {
-        cy.intercept('POST','http://localhost:8080/api/users/register').as('signUp')
+        cy.intercept('POST',apiUrl + '/users/register').as('signUp')
         cy.get('form').within(($form) => {
             cy.get('input[type="email"][name="email"][placeholder="Enter email"]').type(email)
             cy.get('input[type="text"][name="firstName"][placeholder="Enter First Name"]').type(firstName)

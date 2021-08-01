@@ -1,4 +1,5 @@
 describe('Add/Delete password',()=>{
+  const apiUrl = 'http://localhost:8081/api';
     let user_id;
     let user_detail;
     beforeEach('Logins',() => {
@@ -20,11 +21,11 @@ describe('Add/Delete password',()=>{
           'bearer' : window.localStorage.getItem('token')
           },
           //check for user id in pwd.json
-          url:'http://localhost:8080/api/passwords/save-password', failOnStatusCode: false, body: pwd
+          url:apiUrl + '/passwords/save-password', failOnStatusCode: false, body: pwd
         })
       })
       //always check for user id.
-      cy.intercept('GET',`http://localhost:8080/api/passwords/get-passwords?user-id=${user_id}`).as('password')
+      cy.intercept('GET',apiUrl + `/passwords/get-passwords?user-id=${user_id}`).as('password')
       cy.visit('/')
       cy.wait('@password').then((resp)=>{
         expect(resp.response.body).to.have.property('passwordList');
@@ -42,7 +43,7 @@ describe('Add/Delete password',()=>{
     
     it('Deletes password from UI', () => {
       //always check for user id.
-      cy.intercept('GET',`http://localhost:8080/api/passwords/get-passwords?user-id=${user_id}`).as('password')
+      cy.intercept('GET',apiUrl + `/passwords/get-passwords?user-id=${user_id}`).as('password')
       cy.visit('/')
       //check for length of passwords saved
       cy.wait('@password').should(({ request, response }) => {
@@ -55,7 +56,7 @@ describe('Add/Delete password',()=>{
             //delete password
             cy.get(`.content-table > tbody > :nth-child(${pwdLength}) > :nth-child(5) > .actions > .pointer`).eq(2).click()
             cy.get('input[type="password"][placeholder="Enter Original Password"]').type(user_detail.password)
-            cy.intercept('POST','http://localhost:8080/api/passwords/delete-password').as('deletePassword')
+            cy.intercept('POST',apiUrl + '/passwords/delete-password').as('deletePassword')
             cy.get('.buttons-area > .btn').contains('Confirm').click()
             cy.wait('@deletePassword').then((response)=>{
               expect(response.response.body.message).to.equal('Password Deleted Successfully')

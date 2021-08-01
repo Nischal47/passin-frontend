@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 describe('Tasks', () => {
+  const apiUrl = 'http://localhost:8081/api';
 
   it('No param', () => {
     cy.task("noParam").then((res)=>{
@@ -21,7 +22,7 @@ describe('Tasks', () => {
       cy.login(resp.email, resp.password)
       user_id = resp.id
       const query = `select count(password) from passwords where user_id=${user_id}`;
-      cy.intercept('GET',`http://localhost:8080/api/passwords/get-passwords?user-id=${user_id}`).as('savedPasswords')
+      cy.intercept('GET',apiUrl + `/passwords/get-passwords?user-id=${user_id}`).as('savedPasswords')
       cy.visit('/')
       cy.wait('@savedPasswords').then((resp)=>{
         const pwdLength = resp.response.body.passwordList.length

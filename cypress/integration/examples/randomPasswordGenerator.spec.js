@@ -1,4 +1,6 @@
 describe('Actions', () => {
+  const apiUrl = 'http://localhost:8081/api';
+
     beforeEach('Logins',() => {
       cy.fixture('user').then((resp)=>{
         cy.login(resp.email, resp.password)
@@ -8,7 +10,7 @@ describe('Actions', () => {
 
     it('Generates Random Password',()=>{
         cy.get('.btn').contains('Add Password').click()
-        cy.intercept('GET','http://localhost:8080/api/passwords/generate-random-password?minLength=8&maxLength=12').as('randomPassword')
+        cy.intercept('GET',apiUrl + '/passwords/generate-random-password?minLength=8&maxLength=12').as('randomPassword')
         cy.get('.btn.pointer').contains('Generate Password').click()
         cy.wait('@randomPassword').then(resp=>{
             const rPwd = resp.response.body.password
