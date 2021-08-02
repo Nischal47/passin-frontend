@@ -27,7 +27,7 @@
 
 Cypress.Commands.add('login',(email, password)=>{
     const apiUrl = Cypress.env('api_url');
-    cy.request('POST', '/users/login', {"email":email, "password":password}).then((resp)=>{
+    cy.request('POST', apiUrl + '/users/login', {"email":email, "password":password}).then((resp)=>{
         window.localStorage.setItem('token',resp.body.token)
         window.localStorage.setItem('refreshToken',resp.body.refreshToken)
         const users = {
