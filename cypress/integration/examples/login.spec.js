@@ -97,8 +97,14 @@ describe('Login Using Email', () =>{
         cy.get('input[type="email"][name="email"]').type(email)
         cy.get('input[type="password"][name="password"]').type(password)
         cy.intercept('POST',apiUrl + '/users/login').as('login')
+        cy.intercept('GET',apiUrl + `/passwords/get-passwords?user-id=3`).as('password')
         cy.get('button[type="submit"]').click()
-        cy.wait('@login')
+        cy.wait('@login').then(resp=>{
+            expect(resp.response.body).to.have.property('message')
+        })
+        cy.wait('@password').then(resp=>{
+            expect(resp.response.body).to.have.property('httpStatus')
+        })
         cy.get('.user-name > .sub-title').contains(firstName).should('be.visible')
     })
 

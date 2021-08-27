@@ -1,21 +1,8 @@
 {
-    "users": [
-        {
-            "email":"chhunjus@gmail.com",
-            "password":"qqqqqqqq",
-            "dateOfBirth": 985132800000,
-            "firstName": "Sharad",
-            "id": 2,
-            "lastName": "Chhunju"
-        },
-        {
-            "email":"hello@hello.com",
-            "password":"qqqqqqqq",
-            "dateOfBirth": 985132800000,
-            "firstName": "Hello",
-            "id": 3,
-            "lastName": "Hello"
-        }
-    ]
-
+    "email":"hello@hello.com",
+    "password":"qqqqqqqq",
+    "dateOfBirth": 985132800000,
+    "firstName": "Hello",
+    "id": 3,
+    "lastName": "Hello"
 }
